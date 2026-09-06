@@ -1,0 +1,923 @@
+<title>One Adjusters</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+<style>
+  /* Official One Adjusters brand palette ("Good Luck"): Midnight #0a0d26,
+     Forest #73aa71, Pale Green #90f28d — per client brand manual.
+     Display face: LT Wave (licensed, not web-embeddable here — Poppins
+     stands in). Body/web face: DM Sans (brand's own web alternate). */
+  :root{
+    --navy:      #0A0D26;
+    --navy-2:    #10143A;
+    --navy-3:    #1A2050;
+    --forest:    #73AA71;
+    --forest-br: #8FC08D;
+    --green:     #90F28D;
+    --green-dim: #73AA71;
+    --paper:     #F3F2ED;
+    --paper-2:   #E7E4DA;
+    --line:      #D8D4C6;
+    --ink:       #10152B;
+    --ink-soft:  #4A5170;
+    --white:     #FFFFFF;
+    --on-navy:       #EDEFF7;
+    --on-navy-soft:  #A6ACC8;
+    --on-navy-line:  #26315C;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  [id]{scroll-margin-top:69px;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'DM Sans', ui-sans-serif, system-ui, sans-serif;
+    font-size:16px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+  }
+
+  h1,h2,h3{
+    font-family:'Poppins', 'DM Sans', sans-serif;
+    text-wrap:balance;
+    color:inherit;
+    font-weight:700;
+    letter-spacing:-0.01em;
+  }
+
+  .mono{
+    font-family:'IBM Plex Mono', ui-monospace, monospace;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+  }
+
+  a{color:inherit;}
+  img,svg{display:block; max-width:100%;}
+
+  .wrap{
+    max-width:1120px;
+    margin:0 auto;
+    padding-left:clamp(20px,5vw,56px);
+    padding-right:clamp(20px,5vw,56px);
+  }
+
+  /* ---------- focus ---------- */
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--green);
+    outline-offset:3px;
+    border-radius:2px;
+  }
+
+  /* ---------- nav ---------- */
+  .nav{
+    position:sticky; top:0; z-index:40;
+    background:rgba(10,13,38,0.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--on-navy-line);
+  }
+  .nav-inner{
+    display:flex; align-items:center; justify-content:space-between;
+    height:68px;
+  }
+  .brand{display:flex; align-items:center; gap:10px; text-decoration:none;}
+  .brand-mark{width:26px; height:26px; flex:none;}
+  .brand-word{
+    font-family:'Poppins', sans-serif;
+    font-weight:700; font-size:1.05rem;
+    color:var(--on-navy);
+    letter-spacing:-0.01em;
+  }
+  .brand-word b{color:var(--green); font-weight:700;}
+  .nav-cta{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--on-navy);
+    text-decoration:none;
+    border:1px solid var(--on-navy-line);
+    padding:9px 16px; border-radius:100px;
+    transition:border-color .2s ease, color .2s ease;
+    white-space:nowrap;
+  }
+  .nav-cta:hover{border-color:var(--green); color:var(--green);}
+
+  .nav-right{display:flex; align-items:center; gap:14px;}
+
+  .nav-toggle-wrap{position:relative; display:inline-flex;}
+
+  .nav-toggle{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:38px; height:38px; flex:none;
+    border:1px solid var(--on-navy-line);
+    border-radius:8px;
+    background:transparent;
+    color:var(--on-navy);
+    cursor:pointer;
+    transition:border-color .2s ease, color .2s ease;
+  }
+  .nav-toggle:hover{border-color:var(--green); color:var(--green);}
+  .nav-toggle svg{width:18px; height:18px; display:block;}
+
+  .nav-drawer{
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+    position:absolute; top:calc(100% + 10px); right:0;
+    width:240px;
+    background:var(--navy-2);
+    border:1px solid var(--on-navy-line);
+    border-radius:12px;
+    padding:8px;
+    box-shadow:0 20px 44px rgba(0,0,0,0.4);
+    opacity:0; visibility:hidden; transform:translateY(-8px);
+    transition:opacity .18s ease, transform .18s ease, visibility .18s ease;
+    z-index:50;
+  }
+  .nav-drawer.open{opacity:1; visibility:visible; transform:translateY(0);}
+  .nav-drawer a{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem; letter-spacing:0.03em; text-transform:uppercase;
+    color:var(--on-navy-soft);
+    text-decoration:none;
+    padding:10px 12px;
+    border-radius:7px;
+    transition:color .15s ease, background-color .15s ease;
+  }
+  .nav-drawer a:hover{color:var(--green); background-color:rgba(144,242,141,0.08);}
+
+  /* ---------- section chrome ---------- */
+  section{position:relative;}
+  .on-navy{background:var(--navy); color:var(--on-navy);}
+  .on-paper{background:var(--paper); color:var(--ink);}
+  .band{padding:clamp(64px,10vw,120px) 0;}
+  .band-tight{padding:clamp(44px,7vw,72px) 0;}
+
+  .eyebrow{
+    display:flex; align-items:center; gap:12px;
+    font-size:0.72rem; margin-bottom:22px;
+  }
+  .eyebrow .idx{color:var(--green);}
+  .on-paper .eyebrow{color:var(--ink-soft);}
+  .on-paper .eyebrow .idx{color:var(--forest);}
+  .eyebrow .rule{flex:1; height:1px; background:var(--on-navy-line); max-width:120px;}
+  .on-paper .eyebrow .rule{background:var(--line);}
+
+  .section-head{
+    display:flex; align-items:baseline; flex-wrap:nowrap;
+    gap:16px 18px; margin-bottom:24px;
+  }
+  .section-head .section-num{
+    font-size:clamp(1.15rem,2.2vw,1.6rem);
+    color:var(--green);
+    flex:none;
+  }
+  .on-paper .section-head .section-num{color:var(--forest);}
+  .section-head .title{margin-bottom:0; min-width:0;}
+  .section-head .rule{
+    flex:1 1 40px; height:1px; min-width:40px;
+    background:var(--on-navy-line);
+    align-self:center;
+  }
+  .on-paper .section-head .rule{background:var(--line);}
+
+  h2.title{font-size:clamp(1.7rem, 2.6vw, 2.5rem); margin-bottom:16px;}
+  .lede{
+    font-size:1.05rem;
+    color:var(--on-navy-soft);
+    max-width:60ch;
+  }
+  .on-paper .lede{color:var(--ink-soft);}
+
+  /* ---------- hero ---------- */
+  .hero{
+    background:var(--navy);
+    color:var(--on-navy);
+    padding:clamp(80px,14vw,150px) 0 clamp(64px,9vw,110px);
+    position:relative;
+  }
+  .hero-inner{position:relative; max-width:820px;}
+  .hero-inner.center{margin:0 auto; text-align:center;}
+  .hero-inner.center .sub{margin-left:auto; margin-right:auto;}
+  .hero-lockup{width:min(615px,92vw); margin:0 auto clamp(28px,5vw,44px);}
+  .hero-lockup svg{width:100%; height:auto; display:block;}
+  .hero-divider{width:56px; height:2px; background:var(--on-navy-line); margin:clamp(28px,5vw,44px) auto; border-radius:2px;}
+
+  .brand-mark, .hero-mark, .foot-brand-mark{color:var(--green);}
+  .hero-mark{width:56px; height:56px; margin-bottom:28px;}
+  .hero h1{
+    font-size:clamp(1.95rem, 4.4vw, 3.15rem);
+    line-height:1.1;
+  }
+  .hero h1 .accent{color:var(--green);}
+  .hero p.sub{
+    margin-top:22px;
+    font-size:clamp(1rem,1.6vw,1.15rem);
+    color:var(--on-navy-soft);
+    max-width:62ch;
+  }
+  .credentials{
+    display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px;
+    margin:36px auto 0;
+    max-width:480px;
+  }
+  .credential{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.7rem; letter-spacing:0.06em; text-transform:uppercase;
+    color:var(--on-navy);
+    border:1px solid var(--on-navy-line);
+    border-radius:100px;
+    padding:8px 14px;
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    width:fit-content; margin:0 auto;
+    transition:border-color .2s ease, transform .2s ease, background-color .2s ease;
+  }
+  .credential:hover{
+    border-color:var(--green);
+    background-color:rgba(144,242,141,0.08);
+    transform:translateY(-2px);
+  }
+  .credential .dot{width:6px; height:6px; border-radius:50%; background:var(--green); flex:none;}
+
+  /* ---------- who we are / value drivers ---------- */
+  .who-grid{
+    display:grid; grid-template-columns:1fr; gap:44px;
+    margin-top:8px;
+  }
+  @media(min-width:860px){ .who-grid{grid-template-columns:0.85fr 1.15fr; gap:64px;} }
+
+  .driver-list{display:flex; flex-direction:column; gap:0;}
+  .driver{
+    display:grid; grid-template-columns:auto 1fr; gap:18px;
+    padding:22px 0;
+    border-top:1px solid var(--line);
+  }
+  .driver:last-child{border-bottom:1px solid var(--line);}
+  .driver-num{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.8rem;
+    color:var(--forest);
+    padding-top:2px;
+  }
+  .driver h3{font-size:1.02rem; margin-bottom:6px; font-weight:600;}
+  .driver p{color:var(--ink-soft); font-size:0.95rem;}
+
+  /* ---------- commitments strip ---------- */
+  .commit-strip{
+    display:flex; align-items:center; justify-content:center;
+    gap:clamp(10px,3vw,28px);
+    flex-wrap:wrap;
+    padding:36px 0;
+  }
+  .commit-node{
+    font-family:'Poppins', sans-serif; font-weight:600;
+    font-size:clamp(0.95rem,2vw,1.2rem);
+    color:var(--on-navy);
+    border:1px solid var(--on-navy-line);
+    border-radius:100px;
+    padding:14px 26px;
+  }
+  .commit-node.core{
+    background:var(--forest);
+    border-color:var(--forest);
+    color:#fff;
+  }
+  .commit-join{color:var(--green); font-size:1rem; opacity:0.8;}
+
+  /* ---------- triangle diagram (commitments / execution model) ---------- */
+  .triangle-wrap{
+    position:relative;
+    width:min(600px,94%);
+    aspect-ratio:600/320;
+    margin:20px auto 8px;
+  }
+  .triangle-wrap svg{position:absolute; inset:0; width:100%; height:100%; overflow:visible;}
+  .tri-node{
+    position:absolute; transform:translate(-50%,-50%);
+    max-width:180px;
+    text-align:center; line-height:1.25;
+    font-family:'Poppins', sans-serif; font-weight:600;
+    font-size:clamp(0.78rem,1.6vw,1rem);
+    color:var(--on-navy);
+    border:1px solid var(--on-navy-line);
+    background:var(--navy);
+    border-radius:16px;
+    padding:12px 16px;
+    transition:transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+  }
+  .tri-node:hover{
+    transform:translate(-50%,-50%) scale(1.06);
+    border-color:var(--green);
+    box-shadow:0 10px 26px rgba(0,0,0,0.28);
+  }
+  .tri-node.core{background:var(--forest); border-color:var(--forest); color:#fff;}
+  .tri-node.core:hover{border-color:var(--green); box-shadow:0 10px 26px rgba(0,0,0,0.22);}
+  .tri-top{left:50%; top:8%;}
+  .tri-left{left:12%; top:92%;}
+  .tri-right{left:88%; top:92%;}
+  @media(max-width:480px){
+    .tri-node{max-width:88px; padding:6px 6px; font-size:0.64rem; line-height:1.25; overflow-wrap:break-word;}
+  }
+
+  /* ---------- methodology ---------- */
+  .method-track{
+    display:grid; gap:14px;
+    grid-template-columns:1fr;
+    margin-top:44px;
+  }
+  @media(min-width:760px){
+    .method-track{grid-template-columns:repeat(5,1fr); align-items:stretch;}
+  }
+  .method-step{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:22px 18px;
+    position:relative;
+    transition:transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+  }
+  .method-step:hover{
+    transform:translateY(-3px);
+    border-color:var(--forest);
+    box-shadow:0 12px 22px rgba(16,21,43,0.1);
+  }
+  .method-step.final:hover{border-color:var(--green); box-shadow:0 12px 22px rgba(0,0,0,0.3);}
+  .method-step .num{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem; color:var(--forest);
+    display:block; margin-bottom:10px;
+  }
+  .method-step h4{font-family:'Poppins',sans-serif; font-weight:600; font-size:0.98rem;}
+  .method-step.final{background:var(--navy); border-color:var(--navy); color:var(--on-navy);}
+  .method-step.final .num{color:var(--green);}
+  .method-step.final h4{font-size:0.85rem; line-height:1.5;}
+  .method-arrow{
+    display:none; align-items:center; justify-content:center; color:var(--forest); opacity:0.5;
+  }
+  @media(min-width:760px){
+    .method-track{grid-template-columns:1fr auto 1fr auto 1fr auto 1fr auto 1.2fr;}
+    .method-arrow{display:flex;}
+  }
+
+  /* ---------- team ---------- */
+  .team-highlights{
+    display:grid; grid-template-columns:1fr; gap:28px;
+    margin-bottom:48px;
+  }
+  @media(min-width:760px){ .team-highlights{grid-template-columns:repeat(3,1fr);} }
+  .hl h3{font-size:1rem; color:var(--green); margin-bottom:8px;}
+  .hl p{color:var(--on-navy-soft); font-size:0.92rem;}
+  .on-paper .hl h3{color:var(--forest);}
+  .on-paper .hl p{color:var(--ink-soft);}
+
+  .team-grid{
+    display:flex; flex-wrap:wrap; justify-content:center; gap:12px;
+  }
+  .team-cell{
+    background:var(--navy-2);
+    border:1px solid var(--on-navy-line);
+    color:var(--on-navy);
+    border-radius:100px;
+    padding:14px 22px;
+    text-align:center;
+    font-size:0.85rem;
+    font-weight:500;
+    transition:transform .2s ease, border-color .2s ease;
+  }
+  .team-cell:hover{
+    transform:translateY(-2px);
+    border-color:var(--green);
+  }
+
+  /* ---------- APIC circle ---------- */
+  .circle-wrap{
+    position:relative;
+    width:min(400px,86vw);
+    aspect-ratio:1/1;
+    margin:32px auto 0;
+  }
+  .circle-wrap svg{position:absolute; inset:0; width:100%; height:100%; overflow:visible;}
+  .apic-node{
+    position:absolute; transform:translate(-50%,-50%);
+    border:1px solid var(--line);
+    background:var(--white);
+    border-radius:100px;
+    padding:14px 22px;
+    text-align:center;
+    min-width:118px;
+    transition:transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+  }
+  .apic-node:hover{
+    transform:translate(-50%,-50%) scale(1.07);
+    border-color:var(--forest);
+    box-shadow:0 12px 26px rgba(16,21,43,0.18);
+  }
+  .apic-node h4{font-family:'Poppins',sans-serif; font-weight:600; font-size:1rem; color:var(--ink);}
+  .apic-node.n-top{left:50%; top:10%;}
+  .apic-node.n-right{left:90%; top:50%;}
+  .apic-node.n-bottom{left:50%; top:90%;}
+  .apic-node.n-left{left:10%; top:50%;}
+  @media(max-width:480px){
+    .apic-node{min-width:84px; padding:8px 12px;}
+    .apic-node h4{font-size:0.78rem;}
+    .apic-node.n-right{left:86%;}
+    .apic-node.n-left{left:14%;}
+  }
+
+  /* ---------- claimlink feature ---------- */
+  .cl-panel{
+    background:var(--forest);
+    border-radius:22px;
+    padding:clamp(32px,5vw,56px);
+    color:#fff;
+    display:grid; grid-template-columns:1fr; gap:28px;
+  }
+  @media(min-width:760px){ .cl-panel{grid-template-columns:0.9fr 1.1fr; align-items:center;} }
+  .cl-panel .mark{width:44px; height:44px; margin-bottom:18px; color:#fff; --mark-bg:var(--forest);}
+  .cl-panel h2{font-size:clamp(1.5rem,2.6vw,2.1rem); color:#fff;}
+  .cl-panel p{color:#D7E3F7; font-size:0.98rem; margin-top:14px;}
+  .cl-stats{display:flex; flex-direction:column; gap:16px;}
+  .cl-stat{
+    border-top:1px solid rgba(255,255,255,0.25);
+    padding-top:14px;
+    font-size:0.92rem;
+    color:#EAF1FC;
+  }
+  .cl-stat b{display:block; font-family:'Poppins',sans-serif; font-size:1rem; color:#fff; margin-bottom:2px;}
+
+  /* ---------- value cycle (circle of 6) ---------- */
+  .cycle6-wrap{
+    position:relative;
+    width:min(560px,92vw);
+    aspect-ratio:1/1;
+    margin:40px auto 0;
+  }
+  .cycle6-item{
+    position:absolute; transform:translate(-50%,-50%);
+    width:150px;
+    background:var(--navy-2);
+    border:1px solid var(--on-navy-line);
+    color:var(--on-navy);
+    border-radius:14px;
+    padding:14px 16px;
+    text-align:center;
+    font-size:0.82rem;
+    font-weight:500;
+    line-height:1.3;
+    display:flex; align-items:center; justify-content:center;
+    min-height:78px;
+    transition:transform .25s ease, border-color .25s ease, background-color .25s ease;
+  }
+  .cycle6-item:hover{
+    transform:translate(-50%,-50%) scale(1.07);
+    border-color:var(--green);
+    background-color:var(--navy-3);
+  }
+  .cycle6-item.pos-1{left:50%; top:8%;}
+  .cycle6-item.pos-2{left:86.4%; top:29%;}
+  .cycle6-item.pos-3{left:86.4%; top:71%;}
+  .cycle6-item.pos-4{left:50%; top:92%;}
+  .cycle6-item.pos-5{left:13.6%; top:71%;}
+  .cycle6-item.pos-6{left:13.6%; top:29%;}
+  @media(max-width:480px){
+    .cycle6-item{width:100px; padding:8px 10px; font-size:0.68rem; min-height:56px;}
+  }
+
+  /* ---------- services ---------- */
+  .services{
+    display:grid; grid-template-columns:repeat(2,1fr); gap:12px;
+    margin-top:44px;
+  }
+  @media(min-width:760px){ .services{grid-template-columns:repeat(4,1fr);} }
+  .service{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:18px 20px;
+    font-size:0.9rem;
+    font-weight:600;
+    font-family:'Poppins',sans-serif;
+    line-height:1.4;
+    display:flex; align-items:center;
+    min-height:88px;
+    transition:transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+  }
+  .service:hover{
+    transform:translateY(-3px);
+    border-color:var(--forest);
+    box-shadow:0 12px 22px rgba(16,21,43,0.1);
+  }
+  .service.feature{background:var(--navy); border-color:var(--navy); color:var(--on-navy);}
+  .service.feature:hover{border-color:var(--green); box-shadow:0 12px 22px rgba(0,0,0,0.3);}
+
+  /* ---------- footer ---------- */
+  footer{background:var(--navy); color:var(--on-navy); padding:clamp(56px,8vw,88px) 0 36px;}
+  .foot-grid{
+    display:grid; grid-template-columns:1fr; gap:40px;
+    padding-bottom:40px; border-bottom:1px solid var(--on-navy-line);
+  }
+  @media(min-width:760px){ .foot-grid{grid-template-columns:1.2fr 1fr; align-items:end;} }
+  .foot-brand-mark{width:40px; height:40px; margin-bottom:14px;}
+  .foot-word{font-family:'Poppins',sans-serif; font-weight:700; font-size:1.3rem;}
+  .foot-word b{color:var(--green);}
+  .foot-tag{color:var(--on-navy-soft); font-size:0.85rem; margin-top:4px; font-family:'IBM Plex Mono',monospace; letter-spacing:0.06em; text-transform:uppercase;}
+  .foot-contact{font-size:0.95rem;}
+  .foot-contact .role{color:var(--on-navy-soft); font-size:0.82rem; margin-bottom:10px;}
+  .foot-contact a{
+    display:block; text-decoration:none; color:var(--on-navy);
+    padding:6px 0; border-bottom:1px dashed transparent;
+  }
+  .foot-contact a:hover{color:var(--green); border-color:var(--on-navy-line);}
+  .foot-bottom{
+    display:flex; flex-wrap:wrap; gap:10px; justify-content:space-between;
+    padding-top:24px; font-size:0.75rem; color:var(--on-navy-soft);
+  }
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="logo-mark" viewBox="0 0 141.72 142.79">
+      <path fill="currentColor" d="M102.45,126.73c-.19-.19-.37-.38-.56-.56-2.41-2.48-5.95-3.45-9.29-2.56-5.91,1.59-12.68,2.39-20.36,2.39-37.63,0-53.64-18.42-53.64-53.64,0-36.03,16.01-53.64,53.64-53.64s52.84,17.61,52.84,53.64c0,7.81-.79,14.79-2.42,20.93-.88,3.32.1,6.84,2.57,9.22.24.23.48.47.72.71,3.54,3.54,5.89,6.85,7.15,10,5.82-10.98,8.6-24.94,8.6-41.82C141.72,23.44,120.41,0,71.39,0S0,23.44,0,71.39s21.31,71.39,71.39,71.39c17.07,0,30.77-2.98,41.39-8.84-3.26-1.2-6.68-3.57-10.33-7.22Z"/>
+      <path fill="currentColor" d="M39.03,72.36c0,21.72,9.87,33.07,33.07,33.07s32.57-11.35,32.57-33.07-9.87-33.07-32.57-33.07-33.07,10.86-33.07,33.07Z"/>
+    </symbol>
+    <marker id="tri-arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 Z" fill="rgba(237,239,247,0.55)"/>
+    </marker>
+    <marker id="circle-arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#73AA71"/>
+    </marker>
+  </defs>
+</svg>
+
+<nav class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#top">
+      <svg class="brand-mark" viewBox="0 0 141.72 142.79" aria-hidden="true"><use href="#logo-mark"/></svg>
+      <span class="brand-word">one<b>adjusters</b></span>
+    </a>
+    <div class="nav-right">
+      <div class="nav-toggle-wrap">
+        <button class="nav-toggle" type="button" aria-label="Toggle section menu" aria-expanded="false" aria-controls="navDrawer" onclick="var d=document.getElementById('navDrawer'); var open=d.classList.toggle('open'); this.setAttribute('aria-expanded', open);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+        <div class="nav-drawer" id="navDrawer">
+          <a href="#who-we-are">Who We Are</a>
+          <a href="#data-methodology">Methodology</a>
+          <a href="#execution-model">Model</a>
+          <a href="#multidisciplinary-partner">Multidisciplinary Partner</a>
+          <a href="#apic-approach">Approach</a>
+          <a href="#strategic-value">Strategic Value</a>
+          <a href="#services">Services</a>
+        </div>
+      </div>
+      <a class="nav-cta" href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+<script>
+  document.addEventListener('click', function(e){
+    var drawer = document.getElementById('navDrawer');
+    var toggle = document.querySelector('.nav-toggle');
+    if(!drawer || !drawer.classList.contains('open')) return;
+    if(drawer.contains(e.target) || (toggle && toggle.contains(e.target))) return;
+    drawer.classList.remove('open');
+    if(toggle) toggle.setAttribute('aria-expanded', 'false');
+  });
+
+  function easeInOutCubic(t){
+    return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2;
+  }
+
+  function smoothScrollTo(targetY, duration){
+    var startY = window.pageYOffset;
+    var diff = targetY - startY;
+    var startTime = null;
+    function step(timestamp){
+      if(startTime === null) startTime = timestamp;
+      var elapsed = timestamp - startTime;
+      var percent = Math.min(elapsed / duration, 1);
+      window.scrollTo(0, startY + diff * easeInOutCubic(percent));
+      if(percent < 1){
+        requestAnimationFrame(step);
+      }
+    }
+    requestAnimationFrame(step);
+  }
+
+  document.querySelectorAll('a[href^="#"]').forEach(function(link){
+    link.addEventListener('click', function(e){
+      var id = this.getAttribute('href').slice(1);
+      var target = id ? document.getElementById(id) : null;
+      if(!target) return;
+      e.preventDefault();
+
+      var drawer = document.getElementById('navDrawer');
+      var toggle = document.querySelector('.nav-toggle');
+      if(drawer) drawer.classList.remove('open');
+      if(toggle) toggle.setAttribute('aria-expanded', 'false');
+
+      var navEl = document.querySelector('.nav');
+      var offset = navEl ? navEl.getBoundingClientRect().height : 69;
+      var targetY = target.getBoundingClientRect().top + window.pageYOffset - offset;
+      smoothScrollTo(Math.max(targetY, 0), 500);
+      history.pushState(null, '', '#' + id);
+    });
+  });
+</script>
+
+<header class="hero" id="top">
+  <div class="wrap hero-inner center">
+    <div class="hero-lockup">
+      <svg viewBox="0 0 571.41 240.84" role="img" aria-label="One Adjusters &mdash; Driven by Precision">
+        <defs><style>
+          .hlA{fill:#90f28d; stroke-width:0px;}
+          .hlB{fill:#fff; stroke-width:0px;}
+          .hlT{isolation:isolate;}
+          .hlTx{fill:#fff; font-family:'Poppins','LT Wave',sans-serif; font-weight:300; font-size:28.58px; letter-spacing:.04em; text-anchor:middle;}
+        </style></defs>
+        <g>
+          <path class="hlA" d="M306.82,84.76c-.13-.13-.25-.25-.37-.38-1.61-1.66-3.98-2.31-6.21-1.71-3.95,1.06-8.48,1.6-13.62,1.6-25.17,0-35.88-12.32-35.88-35.88s10.71-35.88,35.88-35.88,35.34,11.78,35.34,35.88c0,5.22-.53,9.89-1.62,14-.59,2.22.07,4.57,1.72,6.17.16.15.32.31.48.47,2.37,2.37,3.94,4.58,4.78,6.69,3.9-7.34,5.75-16.68,5.75-27.97,0-32.07-14.25-47.75-47.04-47.75s-47.75,15.68-47.75,47.75,14.25,47.75,47.75,47.75c11.42,0,20.58-1.99,27.68-5.91-2.18-.8-4.47-2.39-6.91-4.83h.02Z"/>
+          <path class="hlA" d="M264.41,48.39c0,14.52,6.6,22.12,22.12,22.12s21.79-7.59,21.79-22.12-6.6-22.12-21.79-22.12-22.12,7.26-22.12,22.12Z"/>
+          <path class="hlB" d="M80.44,136.9c16.24,0,23.35,6.25,23.35,20.57v28.35h-9.42v-27.97c0-9.32-4.23-13.36-13.94-13.36s-14.03,4.04-14.03,13.36v27.97h-9.42v-28.35c0-14.32,7.11-20.57,23.45-20.57h0Z"/>
+          <path class="hlB" d="M44.7,142.12c-6.95-6.95-32.37-6.95-39.32,0-7.18,7.18-7.18,33.45,0,40.63,6.95,6.95,32.37,6.95,39.32,0,7.18-7.18,7.18-33.45,0-40.63ZM38.5,176.34c-4.76,4.76-22.17,4.76-26.93,0-4.92-4.92-4.92-22.9,0-27.82,4.76-4.76,22.17-4.76,26.93,0,4.92,4.92,4.92,22.9,0,27.82Z"/>
+          <path class="hlB" d="M154.74,165.92h-34.12c1.06,9.23,6.34,13.17,17.11,13.17,4.9,0,12.59-.87,17.3-1.92v7.3c-6.25,1.44-12.69,2.21-18.07,2.21-17.68,0-25.95-7.88-25.95-24.31v-1.15c0-16.24,7.98-24.31,24.32-24.31s23.54,8.36,23.54,23.16c0,4.42-.67,5.86-4.13,5.86h0ZM149.44,158.62c-.1-9.23-4.52-14.13-14.13-14.13s-14.13,4.32-14.8,14.13h28.93Z"/>
+          <path class="hlA" d="M211.72,157.95v27.87h-9.42v-5h-.58c-3.56,3.94-8.75,5.86-16.82,5.86-12.88,0-19.6-4.9-19.6-15.28s6.92-15.09,23.83-15.09c2.5,0,6.92.1,13.17.48v-1.25c0-8.46-3.84-11.05-14.22-11.05-5.19,0-11.05.67-16.82,1.92v-7.3c6.06-1.44,11.63-2.21,17.59-2.21,16.43,0,22.87,5.96,22.87,21.05h0ZM186.55,179.28c10.76,0,15.76-4.52,15.76-13.55v-2.21c-4.61-.29-9.71-.48-12.69-.48-10.67,0-14.9,2.4-14.9,8.36,0,5.48,3.56,7.88,11.82,7.88h0Z"/>
+          <path class="hlA" d="M242.19,136.9c8.75,0,12.69,2.31,16.34,6.15h.77v-25.47h9.42v44.79c0,16.24-8.17,24.31-24.99,24.31s-25.08-8.07-25.08-24.31v-1.15c0-16.53,7.59-24.31,23.55-24.31h0ZM243.72,179.09c10.96,0,15.57-5.19,15.57-17.01v-.58c0-11.82-4.61-17.01-15.57-17.01s-15.67,5.19-15.67,17.01v.58c0,11.82,4.71,17.01,15.67,17.01h0Z"/>
+          <path class="hlA" d="M295.32,137.77h9.42v27.97c0,9.32,4.23,13.36,14.03,13.36s13.94-4.04,13.94-13.36v-27.97h9.42v28.35c0,14.32-7.11,20.57-23.35,20.57s-23.45-6.25-23.45-20.57v-28.35h-.01Z"/>
+          <path class="hlA" d="M349.82,150.74c0-9.42,7.4-13.84,22.78-13.84,6.34,0,11.82.77,17.39,2.21v7.3c-5.29-1.25-10.96-1.92-17.01-1.92-10.19,0-13.74,1.92-13.74,5.77,0,5.09,6.44,6.05,12.4,7.11,9.32,1.63,21.14,3.46,21.14,15.19,0,9.71-8.17,14.13-23.83,14.13-6.53,0-12.3-.77-18.26-2.21v-7.3c5.67,1.25,11.63,1.92,17.78,1.92,10.67,0,14.9-1.92,14.9-6.05,0-4.61-5.19-5.67-12.97-7.11-8.26-1.54-20.57-2.98-20.57-15.18v-.02Z"/>
+          <path class="hlA" d="M528.45,150.74c0-9.42,7.4-13.84,22.78-13.84,6.34,0,11.82.77,17.39,2.21v7.3c-5.29-1.25-10.96-1.92-17.01-1.92-10.19,0-13.74,1.92-13.74,5.77,0,5.09,6.44,6.05,12.4,7.11,9.32,1.63,21.14,3.46,21.14,15.19,0,9.71-8.17,14.13-23.83,14.13-6.53,0-12.3-.77-18.26-2.21v-7.3c5.67,1.25,11.63,1.92,17.78,1.92,10.67,0,14.9-1.92,14.9-6.05,0-4.61-5.19-5.67-12.97-7.11-8.26-1.54-20.57-2.98-20.57-15.18v-.02Z"/>
+          <path class="hlA" d="M432.85,178.13v7.11c-5.09.87-7.69,1.44-11.63,1.44-12.01,0-16.43-4.04-16.43-16.72v-24.7h-7.5v-7.5h7.5v-12.49h9.42v12.49h18.07v7.5h-18.07v24.31c0,7.78,1.73,9.51,8.75,9.51,2.98,0,5.86-.29,9.9-.96h-.01Z"/>
+          <path class="hlA" d="M480.61,165.92h-34.12c1.06,9.23,6.34,13.17,17.11,13.17,4.9,0,12.59-.87,17.3-1.92v7.3c-6.25,1.44-12.69,2.21-18.07,2.21-17.68,0-25.95-7.88-25.95-24.31v-1.15c0-16.24,7.98-24.31,24.31-24.31s23.55,8.36,23.55,23.16c0,4.42-.67,5.86-4.13,5.86h0ZM475.32,158.62c-.1-9.23-4.52-14.13-14.13-14.13s-14.13,4.32-14.8,14.13h28.93Z"/>
+          <path class="hlA" d="M501.85,153.72v32.1h-9.42v-32.1c0-12.49,4.32-16.82,19.61-16.82,3.56,0,7.01.19,10.38.67v7.21c-3.17-.19-7.11-.29-9.32-.29-9.61,0-11.24,1.73-11.24,9.23h-.01Z"/>
+          <path class="hlA" d="M258.86,201.54v-8.33c7.26,0,12.37-1.04,15.33-3.12,2.65-1.83,3.98-4.83,3.98-8.99v-44.2h9.09v44.29c0,13.57-9.46,20.35-28.39,20.35h-.01Z"/>
+          <path class="hlA" d="M277.17,123.11c0,3.52,1.6,5.36,5.36,5.36s5.28-1.84,5.28-5.36-1.6-5.36-5.28-5.36-5.36,1.76-5.36,5.36Z"/>
+          <g class="hlT">
+            <text class="hlTx" x="285.7" y="234.9">Driven by Precision</text>
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <div class="hero-divider" aria-hidden="true"></div>
+
+    <h1>Forensic adjusting <span class="accent">Defensible decisions</span></h1>
+    <p class="sub">One Adjusters LLC is a 360&#176; ecosystem engineered to transform claims management from a reactive administrative process into a proactive, data-driven resolution strategy &mdash; bridging traditional adjusting and technical forensics to give insurance carriers the accurate, evidence-level intelligence sound decisions require.</p>
+    <div class="credentials">
+      <span class="credential"><span class="dot"></span>Licensed Adjusters</span>
+      <span class="credential"><span class="dot"></span>FAA Commercial UAS Pilots</span>
+      <span class="credential"><span class="dot"></span>ClaimLink Platform</span>
+      <span class="credential"><span class="dot"></span>APIC Methodology</span>
+    </div>
+  </div>
+</header>
+
+<section class="on-paper band" id="who-we-are">
+  <div class="wrap">
+    <div class="section-head"><span class="section-num mono">01</span><h2 class="title">Who We Are</h2><span class="rule"></span></div>
+    <div class="who-grid">
+      <div>
+        <p class="lede">One Adjusters LLC is a 360-degree ecosystem engineered to transform claims management from a reactive administrative process into a proactive, data-driven resolution strategy. By bridging the gap between traditional adjusting and technical forensics, we provide insurance carriers with the accurate, forensic-level intelligence required to make sound, defensible decisions.</p>
+      </div>
+      <div>
+        <h3 class="mono" style="font-size:0.8rem; color:var(--forest); margin-bottom:8px;">Our Core Value Drivers</h3>
+        <p class="lede" style="margin-bottom:8px;">We deliver a comprehensive service model that eliminates the typical fragmentation of traditional adjusting:</p>
+        <div class="driver-list">
+          <div class="driver">
+            <span class="driver-num mono">01</span>
+            <div>
+              <h3>Integrated Forensic Ecosystem</h3>
+              <p>We consolidate licensed adjusters, construction experts and engineers into a single unit, ensuring seamless communication, rapid response and lower insurer Allocated Loss Adjustment Expenses (ALAE).</p>
+            </div>
+          </div>
+          <div class="driver">
+            <span class="driver-num mono">02</span>
+            <div>
+              <h3>Tech-Forward Hybrid Delivery</h3>
+              <p>Our all-lines adjusters are dual-certified as FAA Commercial UAS (Drone) Pilots, guaranteeing rapid, evidence-based data collection at every inspection.</p>
+            </div>
+          </div>
+          <div class="driver">
+            <span class="driver-num mono">03</span>
+            <div>
+              <h3>The APIC Methodology</h3>
+              <p>Our proprietary, data-driven approach transforms field uncertainty into actionable intelligence, effectively minimizing reconsiderations and mitigating financial leakage (Claim Leakage).</p>
+            </div>
+          </div>
+          <div class="driver">
+            <span class="driver-num mono">04</span>
+            <div>
+              <h3>Strategic Visibility via ClaimLink</h3>
+              <p>Our proprietary digital platform centralizes the entire resolution cycle, offering your team total real time visibility, regulatory compliance and shortened claims lifecycle.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="on-navy band-tight">
+  <div class="wrap">
+    <div class="section-head"><span class="section-num mono">02</span><h2 class="title">Institutional Commitments</h2><span class="rule"></span></div>
+    <div class="triangle-wrap">
+      <svg viewBox="0 0 600 320" aria-hidden="true">
+        <line x1="261.1" y1="71.7" x2="110.9" y2="248.3" stroke="rgba(237,239,247,0.35)" stroke-width="2" marker-start="url(#tri-arrow)" marker-end="url(#tri-arrow)"/>
+        <line x1="338.9" y1="71.7" x2="489.1" y2="248.3" stroke="rgba(237,239,247,0.35)" stroke-width="2" marker-start="url(#tri-arrow)" marker-end="url(#tri-arrow)"/>
+        <line x1="192" y1="294" x2="408" y2="294" stroke="rgba(237,239,247,0.35)" stroke-width="2" marker-start="url(#tri-arrow)" marker-end="url(#tri-arrow)"/>
+      </svg>
+      <span class="tri-node core tri-top">Customer Experience</span>
+      <span class="tri-node tri-left">Empathy</span>
+      <span class="tri-node tri-right">Precision</span>
+    </div>
+  </div>
+</section>
+
+<section class="on-paper band" id="data-methodology">
+  <div class="wrap">
+    <div class="section-head"><span class="section-num mono">03</span><h2 class="title">Our Data Driven Methodology</h2><span class="rule"></span></div>
+
+    <div class="method-track">
+      <div class="method-step"><span class="num mono">01</span><h4>TQM</h4></div>
+      <div class="method-arrow" aria-hidden="true">&rarr;</div>
+      <div class="method-step"><span class="num mono">02</span><h4>Lean Sigma</h4></div>
+      <div class="method-arrow" aria-hidden="true">&rarr;</div>
+      <div class="method-step"><span class="num mono">03</span><h4>Six Sigma</h4></div>
+      <div class="method-arrow" aria-hidden="true">&rarr;</div>
+      <div class="method-step"><span class="num mono">04</span><h4>QC / QA</h4></div>
+      <div class="method-arrow" aria-hidden="true">&rarr;</div>
+      <div class="method-step final"><span class="num mono">05</span><h4>CX &middot; Precision &middot; Empathy</h4></div>
+    </div>
+  </div>
+</section>
+
+<section class="on-navy band-tight" id="execution-model">
+  <div class="wrap">
+    <div class="section-head"><span class="section-num mono">04</span><h2 class="title">One Adjusters: Execution Model</h2><span class="rule"></span></div>
+    <div class="triangle-wrap">
+      <svg viewBox="0 0 600 320" aria-hidden="true">
+        <line x1="261.1" y1="71.7" x2="110.9" y2="230" stroke="rgba(237,239,247,0.35)" stroke-width="2" marker-start="url(#tri-arrow)" marker-end="url(#tri-arrow)"/>
+        <line x1="338.9" y1="71.7" x2="489.1" y2="248.3" stroke="rgba(237,239,247,0.35)" stroke-width="2" marker-start="url(#tri-arrow)" marker-end="url(#tri-arrow)"/>
+        <line x1="192" y1="294" x2="408" y2="294" stroke="rgba(237,239,247,0.35)" stroke-width="2" marker-start="url(#tri-arrow)" marker-end="url(#tri-arrow)"/>
+      </svg>
+      <span class="tri-node core tri-top">360&deg; Strategic Ecosystem</span>
+      <span class="tri-node tri-left">ClaimLink Proprietary Software Technology</span>
+      <span class="tri-node tri-right">APIC Methodology</span>
+    </div>
+  </div>
+</section>
+
+<section class="on-paper band" id="multidisciplinary-partner">
+  <div class="wrap">
+    <div class="section-head"><span class="section-num mono">05</span><h2 class="title">The Strategic Value of a Multidisciplinary Partner</h2><span class="rule"></span></div>
+    <p class="lede" style="margin-bottom:44px;">One Adjusters delivers a comprehensive, 360-degree service. Our strength lies in a diverse in-house team in conjunction with our business affiliates, creating a full data driven claim resolution.</p>
+
+    <div class="team-highlights">
+      <div class="hl"><h3 class="mono" style="font-size:0.78rem;">Hybrid Delivery</h3><p>Seamless integration of core in-house experts and vetted strategic partners.</p></div>
+      <div class="hl"><h3 class="mono" style="font-size:0.78rem;">Unified Ecosystem</h3><p>Centralized management via ClaimLink reduces cycle times and enhances compliance.</p></div>
+      <div class="hl"><h3 class="mono" style="font-size:0.78rem;">Tech-Forward</h3><p>All adjusters are dual-certified as FAA Commercial UAS (Drone) Pilots, ensuring rapid, evidence-based data collection.</p></div>
+    </div>
+
+    <div class="team-grid">
+      <div class="team-cell">Licensed Adjusters</div>
+      <div class="team-cell">Construction Engineers</div>
+      <div class="team-cell">Structural Engineers</div>
+      <div class="team-cell">Geotechnical Engineers</div>
+      <div class="team-cell">Litigation Support Team</div>
+      <div class="team-cell">CAT Response Team</div>
+      <div class="team-cell">FAA 107 Certified UAS Pilots</div>
+      <div class="team-cell">Thermographers</div>
+    </div>
+  </div>
+</section>
+
+<section class="on-navy band" id="apic-approach">
+  <div class="wrap">
+    <div class="section-head"><span class="section-num mono">06</span><h2 class="title">Operational Methodology: The APIC Approach</h2><span class="rule"></span></div>
+    <p class="lede">Our APIC methodology transforms field uncertainty into actionable data, directly reducing the time cycle and Lowering Allocated Loss Adjustment Expenses (ALAE).</p>
+
+    <div class="circle-wrap">
+      <svg viewBox="0 0 400 400" aria-hidden="true">
+        <path d="M242.75,82.54 A125,125 0 0,1 317.46,157.25" fill="none" stroke="#73AA71" stroke-width="2" marker-end="url(#circle-arrow)"/>
+        <path d="M317.46,242.75 A125,125 0 0,1 242.75,317.46" fill="none" stroke="#73AA71" stroke-width="2" marker-end="url(#circle-arrow)"/>
+        <path d="M157.25,317.46 A125,125 0 0,1 82.54,242.75" fill="none" stroke="#73AA71" stroke-width="2" marker-end="url(#circle-arrow)"/>
+        <path d="M82.54,157.25 A125,125 0 0,1 157.25,82.54" fill="none" stroke="#73AA71" stroke-width="2" marker-end="url(#circle-arrow)"/>
+      </svg>
+      <div class="apic-node n-top"><h4>Analyze</h4></div>
+      <div class="apic-node n-right"><h4>Plan</h4></div>
+      <div class="apic-node n-bottom"><h4>Investigate</h4></div>
+      <div class="apic-node n-left"><h4>Conclude</h4></div>
+    </div>
+  </div>
+</section>
+
+<section class="on-paper band-tight" id="claimlink">
+  <div class="wrap">
+    <div class="cl-panel">
+      <div>
+        <svg class="mark" viewBox="0 0 141.72 142.79" aria-hidden="true"><use href="#logo-mark"/></svg>
+        <h2>ClaimLink Technology</h2>
+        <p>ClaimLink, our proprietary digital claims resolution platform, seamlessly integrates the claim resolution cycle in real-time with our pool of skilled professionals; streamlining the entire resolution process for enhanced precision, speed, efficiency, and accuracy.</p>
+      </div>
+      <div>
+        <p>Centralizing the full claim cycle under one innovative and automated roof, fosters an ecosystem that shortens the claims resolution lifecycle, boosts operational efficiency, delivering full stakeholder visibility, maximizing satisfaction and streamlining regulatory compliance.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="on-navy band" id="strategic-value">
+  <div class="wrap">
+    <div class="section-head"><span class="section-num mono">07</span><h2 class="title">Delivering Strategic Value</h2><span class="rule"></span></div>
+    <div class="cycle6-wrap">
+      <svg viewBox="0 0 100 100" aria-hidden="true">
+        <path d="M58.73,8.92 A42,42 0 0,1 78.10,18.79" fill="none" stroke="#73AA71" stroke-width="0.6" marker-end="url(#circle-arrow)"/>
+        <path d="M89.95,37.02 A42,42 0 0,1 91.08,58.73" fill="none" stroke="#73AA71" stroke-width="0.6" marker-end="url(#circle-arrow)"/>
+        <path d="M81.21,78.10 A42,42 0 0,1 67.08,88.37" fill="none" stroke="#73AA71" stroke-width="0.6" marker-end="url(#circle-arrow)"/>
+        <path d="M41.27,91.08 A42,42 0 0,1 21.90,81.21" fill="none" stroke="#73AA71" stroke-width="0.6" marker-end="url(#circle-arrow)"/>
+        <path d="M10.05,62.98 A42,42 0 0,1 8.92,41.27" fill="none" stroke="#73AA71" stroke-width="0.6" marker-end="url(#circle-arrow)"/>
+        <path d="M18.79,21.90 A42,42 0 0,1 32.92,11.63" fill="none" stroke="#73AA71" stroke-width="0.6" marker-end="url(#circle-arrow)"/>
+      </svg>
+      <div class="cycle6-item pos-1">Stakeholders Visibility</div>
+      <div class="cycle6-item pos-2">Reduced Claim Cycles</div>
+      <div class="cycle6-item pos-3">Precise Claims Resolution</div>
+      <div class="cycle6-item pos-4">Fewer Re Inspections</div>
+      <div class="cycle6-item pos-5">Lower Allocated Loss Adjustment Expenses</div>
+      <div class="cycle6-item pos-6">Lower Claim Leakage</div>
+    </div>
+  </div>
+</section>
+
+<section class="on-paper band" style="padding-top:0;" id="services">
+  <div class="wrap">
+    <div class="section-head"><span class="section-num mono">08</span><h2 class="title">Scope of Services</h2><span class="rule"></span></div>
+    <div class="services">
+      <div class="service feature">Claim Management &amp; Resolutions (All Lines)</div>
+      <div class="service">Replacement Cost New Valuations (Insurable Values)</div>
+      <div class="service feature">Property Documentation (Loss Control)</div>
+      <div class="service">Contractor Payment &amp; Performance Risk Management</div>
+      <div class="service">Contractual Risk Assessment for Construction Contractors</div>
+      <div class="service feature">Property Risk Assessment</div>
+      <div class="service">Property CAT Response</div>
+      <div class="service feature">Litigation Support</div>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <svg class="foot-brand-mark" viewBox="0 0 141.72 142.79" aria-hidden="true"><use href="#logo-mark"/></svg>
+        <div class="foot-word">one<b>adjusters</b></div>
+        <div class="foot-tag">Driven by Precision</div>
+      </div>
+      <div class="foot-contact">
+        <div class="role mono">Contact</div>
+        <div style="font-family:'Poppins',sans-serif; font-weight:600; margin-bottom:4px;">Ing. Carlos A. Rivera Robles</div>
+        <div style="color:var(--on-navy-soft); font-size:0.85rem; margin-bottom:10px;">President</div>
+        <a href="tel:+19393208167">Office &nbsp;(939) 320-8167</a>
+        <a href="tel:+17873759916">Mobile &nbsp;(787) 375-9916</a>
+        <a href="mailto:charlie@onegroupllcpr.com">charlie@onegroupllcpr.com</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>&copy; 2026 One Adjusters LLC. All rights reserved.</span>
+      <span>Site by GonzalezTech</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    // While this page is only shared privately for client review on GitHub Pages,
+    // the feedback button stays on for everyone who has the link (there is no
+    // public audience to hide it from yet). Once the real domain goes live and
+    // the page is genuinely public, set this back to false to require the
+    // secret ?fb= token below.
+    var ALWAYS_SHOW_FEEDBACK = true;
+
+    var FEEDBACK_TOKEN = 'JsRLxIsJ6gQy38CTswUw6k7jWsPaB4WY';
+    var params = new URLSearchParams(window.location.search);
+    if(!ALWAYS_SHOW_FEEDBACK && params.get('fb') !== FEEDBACK_TOKEN) return;
+
+    var s = document.createElement('script');
+    s.src = 'https://notas-app-fawn.vercel.app/embed/notas.js';
+    s.onload = function(){
+      if(window.Notas){
+        Notas.init({
+          sessionId: '844e7050-bfa8-4cd1-9589-6b440883d5cd',
+          appName: 'One Adjusters LLC - Landing Page',
+          lang: 'es',
+          position: 'bottom-right'
+        });
+      }
+    };
+    document.head.appendChild(s);
+  })();
+</script>
