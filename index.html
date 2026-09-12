@@ -173,12 +173,6 @@
     display:flex; align-items:baseline; flex-wrap:nowrap;
     gap:16px 18px; margin-bottom:24px;
   }
-  .section-head .section-num{
-    font-size:clamp(1.15rem,2.2vw,1.6rem);
-    color:var(--green);
-    flex:none;
-  }
-  .on-paper .section-head .section-num{color:var(--forest);}
   .section-head .title{margin-bottom:0; min-width:0;}
   .section-head .rule{
     flex:1 1 40px; height:1px; min-width:40px;
@@ -348,14 +342,8 @@
     box-shadow:0 12px 22px rgba(16,21,43,0.1);
   }
   .method-step.final:hover{border-color:var(--green); box-shadow:0 12px 22px rgba(0,0,0,0.3);}
-  .method-step .num{
-    font-family:'IBM Plex Mono', monospace;
-    font-size:0.72rem; color:var(--forest);
-    display:block; margin-bottom:10px;
-  }
   .method-step h4{font-family:'Poppins',sans-serif; font-weight:600; font-size:0.98rem;}
   .method-step.final{background:var(--navy); border-color:var(--navy); color:var(--on-navy);}
-  .method-step.final .num{color:var(--green);}
   .method-step.final h4{font-size:0.85rem; line-height:1.5;}
   .method-arrow{
     display:none; align-items:center; justify-content:center; color:var(--forest); opacity:0.5;
@@ -679,7 +667,7 @@
 
 <section class="on-paper band" id="who-we-are">
   <div class="wrap">
-    <div class="section-head"><span class="section-num mono">01</span><h2 class="title">Who We Are</h2><span class="rule"></span></div>
+    <div class="section-head"><h2 class="title">Who We Are</h2><span class="rule"></span></div>
     <div class="who-grid">
       <div>
         <p class="lede">One Adjusters LLC is a 360-degree ecosystem engineered to transform claims management from a reactive administrative process into a proactive, data-driven resolution strategy. By bridging the gap between traditional adjusting and technical forensics, we provide insurance carriers with the accurate, forensic-level intelligence required to make sound, defensible decisions.</p>
@@ -724,7 +712,7 @@
 
 <section class="on-navy band-tight">
   <div class="wrap">
-    <div class="section-head"><span class="section-num mono">02</span><h2 class="title">Institutional Commitments</h2><span class="rule"></span></div>
+    <div class="section-head"><h2 class="title">Institutional Commitments</h2><span class="rule"></span></div>
     <div class="triangle-wrap">
       <svg viewBox="0 0 600 320" aria-hidden="true">
         <line x1="261.1" y1="71.7" x2="110.9" y2="248.3" stroke="rgba(237,239,247,0.35)" stroke-width="2" marker-start="url(#tri-arrow)" marker-end="url(#tri-arrow)"/>
@@ -740,25 +728,25 @@
 
 <section class="on-paper band" id="data-methodology">
   <div class="wrap">
-    <div class="section-head"><span class="section-num mono">03</span><h2 class="title">Our Data Driven Methodology</h2><span class="rule"></span></div>
+    <div class="section-head"><h2 class="title">Our Data Driven Methodology</h2><span class="rule"></span></div>
 
     <div class="method-track">
-      <div class="method-step"><span class="num mono">01</span><h4>TQM</h4></div>
+      <div class="method-step"><h4>TQM</h4></div>
       <div class="method-arrow" aria-hidden="true">&rarr;</div>
-      <div class="method-step"><span class="num mono">02</span><h4>Lean Sigma</h4></div>
+      <div class="method-step"><h4>Lean Sigma</h4></div>
       <div class="method-arrow" aria-hidden="true">&rarr;</div>
-      <div class="method-step"><span class="num mono">03</span><h4>Six Sigma</h4></div>
+      <div class="method-step"><h4>Six Sigma</h4></div>
       <div class="method-arrow" aria-hidden="true">&rarr;</div>
-      <div class="method-step"><span class="num mono">04</span><h4>QC / QA</h4></div>
+      <div class="method-step"><h4>QC / QA</h4></div>
       <div class="method-arrow" aria-hidden="true">&rarr;</div>
-      <div class="method-step final"><span class="num mono">05</span><h4>CX &middot; Precision &middot; Empathy</h4></div>
+      <div class="method-step final"><h4>CX &middot; Precision &middot; Empathy</h4></div>
     </div>
   </div>
 </section>
 
 <section class="on-navy band-tight" id="execution-model">
   <div class="wrap">
-    <div class="section-head"><span class="section-num mono">04</span><h2 class="title">One Adjusters: Execution Model</h2><span class="rule"></span></div>
+    <div class="section-head"><h2 class="title">One Adjusters: Execution Model</h2><span class="rule"></span></div>
     <div class="triangle-wrap">
       <svg viewBox="0 0 600 320" aria-hidden="true">
         <line x1="261.1" y1="71.7" x2="110.9" y2="230" stroke="rgba(237,239,247,0.35)" stroke-width="2" marker-start="url(#tri-arrow)" marker-end="url(#tri-arrow)"/>
@@ -774,7 +762,7 @@
 
 <section class="on-paper band" id="multidisciplinary-partner">
   <div class="wrap">
-    <div class="section-head"><span class="section-num mono">05</span><h2 class="title">The Strategic Value of a Multidisciplinary Partner</h2><span class="rule"></span></div>
+    <div class="section-head"><h2 class="title">The Strategic Value of a Multidisciplinary Partner</h2><span class="rule"></span></div>
     <p class="lede" style="margin-bottom:44px;">One Adjusters delivers a comprehensive, 360-degree service. Our strength lies in a diverse in-house team in conjunction with our business affiliates, creating a full data driven claim resolution.</p>
 
     <div class="team-highlights">
@@ -798,7 +786,7 @@
 
 <section class="on-navy band" id="apic-approach">
   <div class="wrap">
-    <div class="section-head"><span class="section-num mono">06</span><h2 class="title">Operational Methodology: The APIC Approach</h2><span class="rule"></span></div>
+    <div class="section-head"><h2 class="title">Operational Methodology: The APIC Approach</h2><span class="rule"></span></div>
     <p class="lede">Our APIC methodology transforms field uncertainty into actionable data, directly reducing the time cycle and Lowering Allocated Loss Adjustment Expenses (ALAE).</p>
 
     <div class="circle-wrap">
@@ -833,7 +821,7 @@
 
 <section class="on-navy band" id="strategic-value">
   <div class="wrap">
-    <div class="section-head"><span class="section-num mono">07</span><h2 class="title">Delivering Strategic Value</h2><span class="rule"></span></div>
+    <div class="section-head"><h2 class="title">Delivering Strategic Value</h2><span class="rule"></span></div>
     <div class="cycle6-wrap">
       <svg viewBox="0 0 100 100" aria-hidden="true">
         <path d="M58.73,8.92 A42,42 0 0,1 78.10,18.79" fill="none" stroke="#73AA71" stroke-width="0.6" marker-end="url(#circle-arrow)"/>
@@ -855,7 +843,7 @@
 
 <section class="on-paper band" style="padding-top:0;" id="services">
   <div class="wrap">
-    <div class="section-head"><span class="section-num mono">08</span><h2 class="title">Scope of Services</h2><span class="rule"></span></div>
+    <div class="section-head"><h2 class="title">Scope of Services</h2><span class="rule"></span></div>
     <div class="services">
       <div class="service feature">Claim Management &amp; Resolutions (All Lines)</div>
       <div class="service">Replacement Cost New Valuations (Insurable Values)</div>
