@@ -158,8 +158,8 @@
   .on-paper{background:var(--paper); color:var(--ink);}
   .band{padding:clamp(64px,10vw,120px) 0;}
   .band-tight{padding:clamp(44px,7vw,72px) 0;}
-  section.band, section.band-tight{
-    min-height:100vh;
+  section.band, section.band-tight, .hero{
+    min-height:calc(100vh - 69px);
     display:grid;
     align-content:center;
   }
@@ -626,7 +626,38 @@
       if(drawer) drawer.classList.remove('open');
       if(toggle) toggle.setAttribute('aria-expanded', 'false');
 
-      target.scrollIntoView({behavior:'smooth', block:'start'});
+      var navH = 69;
+      var desiredScroll;
+      if (id === 'top') {
+        // the hero is the very top of the document itself: always land at 0
+        // rather than computing it, so there's no room for rounding drift.
+        desiredScroll = 0;
+      } else {
+      var sectionRect = target.getBoundingClientRect();
+      var sectionTopDoc = sectionRect.top + window.pageYOffset;
+      var sectionHeight = sectionRect.height;
+      var visibleAreaH = window.innerHeight - navH;
+      if (sectionHeight <= visibleAreaH + 1) {
+        // section fits the screen: CSS align-content already centers its content,
+        // so a simple top-align under the nav shows it perfectly, no need to fudge it.
+        desiredScroll = sectionTopDoc - navH;
+      } else {
+        // section is taller than the screen: top-aligning it would cut the bottom off,
+        // so center the actual content block within the visible window instead.
+        var wrap = target.querySelector(':scope > .wrap');
+        var contentRect = wrap ? wrap.getBoundingClientRect() : sectionRect;
+        var contentTopDoc = contentRect.top + window.pageYOffset;
+        var contentHeight = contentRect.height;
+        if (contentHeight <= visibleAreaH) {
+          desiredScroll = contentTopDoc + (contentHeight / 2) - navH - (visibleAreaH / 2);
+        } else {
+          desiredScroll = contentTopDoc - navH;
+        }
+      }
+      }
+      var maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      desiredScroll = Math.max(0, Math.min(desiredScroll, maxScroll));
+      window.scrollTo({top: desiredScroll, behavior:'smooth'});
       history.pushState(null, '', '#' + id);
     });
   });
@@ -849,7 +880,7 @@
   </div>
 </section>
 
-<section class="on-paper band" style="padding-top:0;" id="services">
+<section class="on-paper band" id="services">
   <div class="wrap">
     <div class="section-head"><h2 class="title">Scope of Services</h2><span class="rule"></span></div>
     <div class="services">
