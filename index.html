@@ -158,6 +158,15 @@
   .on-paper{background:var(--paper); color:var(--ink);}
   .band{padding:clamp(64px,10vw,120px) 0;}
   .band-tight{padding:clamp(44px,7vw,72px) 0;}
+  section.band, section.band-tight{
+    min-height:100vh;
+    display:grid;
+    align-content:center;
+  }
+  section.band > .wrap, section.band-tight > .wrap{
+    min-width:0;
+    width:100%;
+  }
 
   .eyebrow{
     display:flex; align-items:center; gap:12px;
@@ -326,7 +335,7 @@
     margin-top:44px;
   }
   @media(min-width:760px){
-    .method-track{grid-template-columns:repeat(5,1fr); align-items:stretch;}
+    .method-track{grid-template-columns:repeat(5,minmax(0,1fr)); align-items:stretch;}
   }
   .method-step{
     background:var(--white);
@@ -358,7 +367,7 @@
     display:grid; grid-template-columns:1fr; gap:28px;
     margin-bottom:48px;
   }
-  @media(min-width:760px){ .team-highlights{grid-template-columns:repeat(3,1fr);} }
+  @media(min-width:760px){ .team-highlights{grid-template-columns:repeat(3,minmax(0,1fr));} }
   .hl h3{font-size:1rem; color:var(--green); margin-bottom:8px;}
   .hl p{color:var(--on-navy-soft); font-size:0.92rem;}
   .on-paper .hl h3{color:var(--forest);}
@@ -479,10 +488,10 @@
 
   /* ---------- services ---------- */
   .services{
-    display:grid; grid-template-columns:repeat(2,1fr); gap:12px;
+    display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px;
     margin-top:44px;
   }
-  @media(min-width:760px){ .services{grid-template-columns:repeat(4,1fr);} }
+  @media(min-width:760px){ .services{grid-template-columns:repeat(4,minmax(0,1fr));} }
   .service{
     background:var(--white);
     border:1px solid var(--line);
@@ -578,26 +587,6 @@
     if(toggle) toggle.setAttribute('aria-expanded', 'false');
   });
 
-  function easeInOutCubic(t){
-    return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2;
-  }
-
-  function smoothScrollTo(targetY, duration){
-    var startY = window.pageYOffset;
-    var diff = targetY - startY;
-    var startTime = null;
-    function step(timestamp){
-      if(startTime === null) startTime = timestamp;
-      var elapsed = timestamp - startTime;
-      var percent = Math.min(elapsed / duration, 1);
-      window.scrollTo(0, startY + diff * easeInOutCubic(percent));
-      if(percent < 1){
-        requestAnimationFrame(step);
-      }
-    }
-    requestAnimationFrame(step);
-  }
-
   document.querySelectorAll('a[href^="#"]').forEach(function(link){
     link.addEventListener('click', function(e){
       var id = this.getAttribute('href').slice(1);
@@ -610,10 +599,7 @@
       if(drawer) drawer.classList.remove('open');
       if(toggle) toggle.setAttribute('aria-expanded', 'false');
 
-      var navEl = document.querySelector('.nav');
-      var offset = navEl ? navEl.getBoundingClientRect().height : 69;
-      var targetY = target.getBoundingClientRect().top + window.pageYOffset - offset;
-      smoothScrollTo(Math.max(targetY, 0), 500);
+      target.scrollIntoView({behavior:'smooth', block:'start'});
       history.pushState(null, '', '#' + id);
     });
   });
