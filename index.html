@@ -472,13 +472,13 @@
   .cl-stat b{display:block; font-family:'Poppins',sans-serif; font-size:1rem; color:#fff; margin-bottom:2px;}
 
   /* ---------- value cycle (circle of 6) ---------- */
-  .cycle6-wrap{
+  .cycle7-wrap{
     position:relative;
-    width:min(560px,92vw);
+    width:min(560px,88vw);
     aspect-ratio:1/1;
     margin:40px auto 0;
   }
-  .cycle6-item{
+  .cycle7-item{
     position:absolute; transform:translate(-50%,-50%);
     width:150px;
     background:var(--navy-2);
@@ -494,19 +494,23 @@
     min-height:78px;
     transition:transform .25s ease, border-color .25s ease, background-color .25s ease;
   }
-  .cycle6-item:hover{
+  .cycle7-item:hover{
     transform:translate(-50%,-50%) scale(1.07);
     border-color:var(--green);
     background-color:var(--navy-3);
   }
-  .cycle6-item.pos-1{left:50%; top:8%;}
-  .cycle6-item.pos-2{left:86.4%; top:29%;}
-  .cycle6-item.pos-3{left:86.4%; top:71%;}
-  .cycle6-item.pos-4{left:50%; top:92%;}
-  .cycle6-item.pos-5{left:13.6%; top:71%;}
-  .cycle6-item.pos-6{left:13.6%; top:29%;}
+  .cycle7-item.pos-1{left:50%; top:8%;}
+  .cycle7-item.pos-2{left:82.84%; top:23.81%;}
+  .cycle7-item.pos-3{left:90.95%; top:59.35%;}
+  .cycle7-item.pos-4{left:68.22%; top:87.84%;}
+  .cycle7-item.pos-5{left:31.78%; top:87.84%;}
+  .cycle7-item.pos-6{left:9.05%; top:59.35%;}
+  .cycle7-item.pos-7{left:17.16%; top:23.81%;}
   @media(max-width:480px){
-    .cycle6-item{width:100px; padding:8px 10px; font-size:0.68rem; min-height:56px;}
+    .cycle7-item{width:88px; padding:6px 8px; font-size:0.64rem; min-height:52px;}
+  }
+  @media(max-width:360px){
+    .cycle7-item{width:78px; font-size:0.6rem;}
   }
 
   /* ---------- services ---------- */
@@ -824,21 +828,23 @@
 <section class="on-navy band" id="strategic-value">
   <div class="wrap">
     <div class="section-head"><h2 class="title">Delivering Strategic Value</h2><span class="rule"></span></div>
-    <div class="cycle6-wrap">
+    <div class="cycle7-wrap">
       <svg viewBox="0 0 100 100" aria-hidden="true">
-        <path d="M58.73,8.92 A42,42 0 0,1 78.10,18.79" fill="none" stroke="#73AA71" stroke-width="0.6" marker-end="url(#circle-arrow)"/>
-        <path d="M89.95,37.02 A42,42 0 0,1 91.08,58.73" fill="none" stroke="#73AA71" stroke-width="0.6" marker-end="url(#circle-arrow)"/>
-        <path d="M81.21,78.10 A42,42 0 0,1 67.08,88.37" fill="none" stroke="#73AA71" stroke-width="0.6" marker-end="url(#circle-arrow)"/>
-        <path d="M41.27,91.08 A42,42 0 0,1 21.90,81.21" fill="none" stroke="#73AA71" stroke-width="0.6" marker-end="url(#circle-arrow)"/>
-        <path d="M10.05,62.98 A42,42 0 0,1 8.92,41.27" fill="none" stroke="#73AA71" stroke-width="0.6" marker-end="url(#circle-arrow)"/>
-        <path d="M18.79,21.90 A42,42 0 0,1 32.92,11.63" fill="none" stroke="#73AA71" stroke-width="0.6" marker-end="url(#circle-arrow)"/>
+        <path d="M58.73,8.92 A42,42 0 0,1 73.14,14.95" fill="none" stroke="#73AA71" stroke-width="0.6" marker-end="url(#circle-arrow)"/>
+        <path d="M87.56,31.21 A42,42 0 0,1 91.83,46.24" fill="none" stroke="#73AA71" stroke-width="0.6" marker-end="url(#circle-arrow)"/>
+        <path d="M88.11,67.66 A42,42 0 0,1 82.04,77.16" fill="none" stroke="#73AA71" stroke-width="0.6" marker-end="url(#circle-arrow)"/>
+        <path d="M59.96,90.80 A42,42 0 0,1 47.28,91.91" fill="none" stroke="#73AA71" stroke-width="0.6" marker-end="url(#circle-arrow)"/>
+        <path d="M24.31,83.22 A42,42 0 0,1 13.95,71.54" fill="none" stroke="#73AA71" stroke-width="0.6" marker-end="url(#circle-arrow)"/>
+        <path d="M8.00,50.63 A42,42 0 0,1 10.68,35.24" fill="none" stroke="#73AA71" stroke-width="0.6" marker-end="url(#circle-arrow)"/>
+        <path d="M23.33,17.56 A42,42 0 0,1 32.92,11.63" fill="none" stroke="#73AA71" stroke-width="0.6" marker-end="url(#circle-arrow)"/>
       </svg>
-      <div class="cycle6-item pos-1">Stakeholders Visibility</div>
-      <div class="cycle6-item pos-2">Reduced Claim Cycles</div>
-      <div class="cycle6-item pos-3">Precise Claims Resolution</div>
-      <div class="cycle6-item pos-4">Fewer Re Inspections</div>
-      <div class="cycle6-item pos-5">Lower Allocated Loss Adjustment Expenses</div>
-      <div class="cycle6-item pos-6">Lower Claim Leakage</div>
+      <div class="cycle7-item pos-1">Stakeholders Visibility</div>
+      <div class="cycle7-item pos-2">Reduced Claim Cycles</div>
+      <div class="cycle7-item pos-3">Precise Claims Resolution</div>
+      <div class="cycle7-item pos-4">Defensible Decisions</div>
+      <div class="cycle7-item pos-5">Fewer Re Inspections</div>
+      <div class="cycle7-item pos-6">Lower Allocated Loss Adjustment Expenses</div>
+      <div class="cycle7-item pos-7">Lower Claim Leakage</div>
     </div>
   </div>
 </section>
