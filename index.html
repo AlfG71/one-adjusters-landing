@@ -356,12 +356,14 @@
   .method-step h4{font-family:'Poppins',sans-serif; font-weight:600; font-size:0.98rem;}
   .method-step.final{background:var(--navy); border-color:var(--navy); color:var(--on-navy);}
   .method-step.final h4{font-size:0.85rem; line-height:1.5;}
+  .method-step.navy{background:var(--navy); border-color:var(--navy); color:var(--on-navy);}
+  .method-step.navy:hover{border-color:var(--green); box-shadow:0 12px 22px rgba(0,0,0,0.3);}
   .method-arrow{
     display:none; align-items:center; justify-content:center; color:var(--forest); opacity:0.5;
   }
   @media(min-width:760px){
-    .method-track{grid-template-columns:1fr auto 1fr auto 1fr auto 1fr auto 1.2fr;}
-    .method-arrow{display:flex;}
+    .method-track{grid-template-columns:1fr; max-width:420px; margin-inline:auto;}
+    .method-arrow{display:flex; transform:rotate(90deg);}
   }
 
   /* ---------- team ---------- */
@@ -725,7 +727,7 @@
       <div class="method-arrow" aria-hidden="true">&rarr;</div>
       <div class="method-step"><h4>Six Sigma</h4></div>
       <div class="method-arrow" aria-hidden="true">&rarr;</div>
-      <div class="method-step"><h4>QC / QA</h4></div>
+      <div class="method-step navy"><h4>QC / QA</h4></div>
       <div class="method-arrow" aria-hidden="true">&rarr;</div>
       <div class="method-step final"><h4>CX &middot; Precision &middot; Empathy</h4></div>
     </div>
