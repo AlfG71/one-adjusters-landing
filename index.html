@@ -182,7 +182,7 @@
     display:flex; align-items:baseline; flex-wrap:nowrap;
     gap:16px 18px; margin-bottom:24px;
   }
-  .section-head .title{margin-bottom:0; min-width:0;}
+  .section-head .title{margin-bottom:0; min-width:0; max-width:min(620px,68%); flex:0 1 auto;}
   .section-head .rule{
     flex:1 1 40px; height:1px; min-width:40px;
     background:var(--on-navy-line);
@@ -341,6 +341,10 @@
   .tri-top{left:50%; top:8%;}
   .tri-left{left:12%; top:92%;}
   .tri-right{left:88%; top:92%;}
+  #institutional-commitments .tri-node{min-width:150px;}
+  #institutional-commitments .triangle-wrap{margin-top:64px;}
+  #execution-model .triangle-wrap{margin-top:64px;}
+  #services .services{margin-top:96px;}
   @media(max-width:480px){
     .tri-node{max-width:88px; padding:6px 6px; font-size:0.64rem; line-height:1.25; overflow-wrap:break-word;}
   }
@@ -355,17 +359,19 @@
     .method-track{grid-template-columns:repeat(5,minmax(0,1fr)); align-items:stretch;}
   }
   .method-step{
-    background:var(--white);
-    border:1px solid var(--line);
+    background:var(--navy);
+    border:1px solid var(--navy);
     border-radius:14px;
     padding:22px 18px;
     position:relative;
+    color:var(--on-navy);
+    text-align:center;
     transition:transform .2s ease, border-color .2s ease, box-shadow .2s ease;
   }
   .method-step:hover{
     transform:translateY(-3px);
-    border-color:var(--forest);
-    box-shadow:0 12px 22px rgba(16,21,43,0.1);
+    border-color:var(--green);
+    box-shadow:0 12px 22px rgba(0,0,0,0.3);
   }
   .method-step.final:hover{border-color:var(--green); box-shadow:0 12px 22px rgba(0,0,0,0.3);}
   .method-step h4{font-family:'Poppins',sans-serif; font-weight:600; font-size:0.98rem;}
@@ -374,7 +380,7 @@
   .method-step.navy{background:var(--navy); border-color:var(--navy); color:var(--on-navy);}
   .method-step.navy:hover{border-color:var(--green); box-shadow:0 12px 22px rgba(0,0,0,0.3);}
   .method-arrow{
-    display:none; align-items:center; justify-content:center; color:var(--forest); opacity:0.5;
+    display:none; align-items:center; justify-content:center; color:var(--forest); opacity:1; font-size:1.5rem; font-weight:700;
   }
   @media(min-width:760px){
     .method-track{grid-template-columns:1fr; max-width:420px; margin-inline:auto;}
@@ -456,12 +462,21 @@
     border-radius:22px;
     padding:clamp(32px,5vw,56px);
     color:#fff;
-    display:grid; grid-template-columns:1fr; gap:28px;
+    display:grid; grid-template-columns:1fr; grid-template-areas:"head" "p1" "p2"; gap:28px;
   }
-  @media(min-width:760px){ .cl-panel{grid-template-columns:0.9fr 1.1fr; align-items:center;} }
+  @media(min-width:760px){
+    .cl-panel{
+      grid-template-columns:0.9fr 1.1fr;
+      grid-template-areas:"head ." "p1 p2";
+      align-items:start;
+    }
+  }
+  .cl-panel .cl-head{grid-area:head;}
+  .cl-panel .cl-p1{grid-area:p1;}
+  .cl-panel .cl-p2{grid-area:p2;}
   .cl-panel .mark{width:44px; height:44px; margin-bottom:18px; color:#fff; --mark-bg:var(--forest);}
-  .cl-panel h2{font-size:clamp(1.5rem,2.6vw,2.1rem); color:#fff;}
-  .cl-panel p{color:#D7E3F7; font-size:0.98rem; margin-top:14px;}
+  .cl-panel h2{font-size:clamp(1.5rem,2.6vw,2.1rem); color:#fff; margin-bottom:0;}
+  .cl-panel p{color:#D7E3F7; font-size:0.98rem; margin-top:0;}
   .cl-stats{display:flex; flex-direction:column; gap:16px;}
   .cl-stat{
     border-top:1px solid rgba(255,255,255,0.25);
@@ -546,7 +561,7 @@
     display:grid; grid-template-columns:1fr; gap:40px;
     padding-bottom:40px; border-bottom:1px solid var(--on-navy-line);
   }
-  @media(min-width:760px){ .foot-grid{grid-template-columns:1.2fr 1fr; align-items:end;} }
+  @media(min-width:760px){ .foot-grid{grid-template-columns:1.2fr 1fr; align-items:start;} }
   .foot-brand-mark{width:40px; height:40px; margin-bottom:14px;}
   .foot-word{font-family:'Poppins',sans-serif; font-weight:700; font-size:1.3rem;}
   .foot-word b{color:var(--green);}
@@ -626,39 +641,52 @@
       if(drawer) drawer.classList.remove('open');
       if(toggle) toggle.setAttribute('aria-expanded', 'false');
 
-      var navH = 69;
-      var desiredScroll;
-      if (id === 'top') {
-        // the hero is the very top of the document itself: always land at 0
-        // rather than computing it, so there's no room for rounding drift.
-        desiredScroll = 0;
-      } else {
-      var sectionRect = target.getBoundingClientRect();
-      var sectionTopDoc = sectionRect.top + window.pageYOffset;
-      var sectionHeight = sectionRect.height;
-      var visibleAreaH = window.innerHeight - navH;
-      if (sectionHeight <= visibleAreaH + 1) {
-        // section fits the screen: CSS align-content already centers its content,
-        // so a simple top-align under the nav shows it perfectly, no need to fudge it.
-        desiredScroll = sectionTopDoc - navH;
-      } else {
-        // section is taller than the screen: top-aligning it would cut the bottom off,
-        // so center the actual content block within the visible window instead.
-        var wrap = target.querySelector(':scope > .wrap');
-        var contentRect = wrap ? wrap.getBoundingClientRect() : sectionRect;
-        var contentTopDoc = contentRect.top + window.pageYOffset;
-        var contentHeight = contentRect.height;
-        if (contentHeight <= visibleAreaH) {
-          desiredScroll = contentTopDoc + (contentHeight / 2) - navH - (visibleAreaH / 2);
+      function doScroll(){
+        var navH = 69;
+        var desiredScroll;
+        if (id === 'top') {
+          // the hero is the very top of the document itself: always land at 0
+          // rather than computing it, so there's no room for rounding drift.
+          desiredScroll = 0;
         } else {
-          desiredScroll = contentTopDoc - navH;
+        var sectionRect = target.getBoundingClientRect();
+        var sectionTopDoc = sectionRect.top + window.pageYOffset;
+        var sectionHeight = sectionRect.height;
+        var visibleAreaH = window.innerHeight - navH;
+        if (sectionHeight <= visibleAreaH + 1) {
+          // section fits the screen: CSS align-content already centers its content,
+          // so a simple top-align under the nav shows it perfectly, no need to fudge it.
+          desiredScroll = sectionTopDoc - navH;
+        } else {
+          // section is taller than the screen: top-aligning it would cut the bottom off,
+          // so center the actual content block within the visible window instead.
+          var wrap = target.querySelector(':scope > .wrap');
+          var contentRect = wrap ? wrap.getBoundingClientRect() : sectionRect;
+          var contentTopDoc = contentRect.top + window.pageYOffset;
+          var contentHeight = contentRect.height;
+          if (contentHeight <= visibleAreaH) {
+            desiredScroll = contentTopDoc + (contentHeight / 2) - navH - (visibleAreaH / 2);
+          } else {
+            desiredScroll = contentTopDoc - navH;
+          }
         }
+        }
+        var maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        desiredScroll = Math.max(0, Math.min(desiredScroll, maxScroll));
+        window.scrollTo({top: desiredScroll, behavior:'smooth'});
+        history.pushState(null, '', '#' + id);
       }
+
+      // If web fonts are still swapping in (e.g. right after page load), layout
+      // shifts after this point, which stales the geometry above and leaves a
+      // sliver of the previous section visible above the one we scroll to.
+      // Wait for them to settle first so the target position is measured against
+      // final layout.
+      if (document.fonts && document.fonts.status !== 'loaded') {
+        document.fonts.ready.then(doScroll);
+      } else {
+        doScroll();
       }
-      var maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      desiredScroll = Math.max(0, Math.min(desiredScroll, maxScroll));
-      window.scrollTo({top: desiredScroll, behavior:'smooth'});
-      history.pushState(null, '', '#' + id);
     });
   });
 </script>
@@ -704,6 +732,7 @@
 
 <section class="on-paper band" id="who-we-are">
   <div class="wrap">
+    <div class="section-head"><h2 class="title">Our Story</h2><span class="rule"></span></div>
     <p class="lede" style="max-width:70ch;">One Adjusters LLC is a 360&#176; ecosystem engineered to transform claims management from a reactive administrative process into a proactive, data-driven resolution strategy &mdash; bridging traditional adjusting and technical forensics to give insurance carriers the accurate, evidence-level intelligence sound decisions require.</p>
 
     <div style="margin-top:48px;">
@@ -714,7 +743,7 @@
           <span class="driver-num mono">01</span>
           <div>
             <h3>Integrated Forensic Ecosystem</h3>
-            <p>We consolidate licensed adjusters, construction experts and engineers into a single unit, ensuring seamless communication, rapid response and lower insurer Allocated Loss Adjustment Expenses (ALAE).</p>
+            <p>We consolidate licensed adjusters, construction experts, engineers and strategic business partners into a single unit, ensuring seamless communication, rapid response and lower insurer Allocated Loss Adjustment Expenses (ALAE).</p>
           </div>
         </div>
         <div class="driver">
@@ -743,7 +772,7 @@
   </div>
 </section>
 
-<section class="on-navy band-tight">
+<section class="on-navy band-tight" id="institutional-commitments">
   <div class="wrap">
     <div class="section-head"><h2 class="title">Institutional Commitments</h2><span class="rule"></span></div>
     <div class="triangle-wrap">
@@ -787,7 +816,7 @@
         <line x1="192" y1="294" x2="408" y2="294" stroke="rgba(237,239,247,0.35)" stroke-width="2" marker-start="url(#tri-arrow)" marker-end="url(#tri-arrow)"/>
       </svg>
       <span class="tri-node core tri-top">360&deg; Strategic Ecosystem</span>
-      <span class="tri-node accent tri-left">ClaimLink Proprietary Software Technology</span>
+      <span class="tri-node accent tri-left">ClaimLink Technology</span>
       <span class="tri-node accent tri-right">APIC Methodology</span>
     </div>
   </div>
@@ -809,7 +838,7 @@
       <div class="team-cell">Construction Engineers</div>
       <div class="team-cell">Structural Engineers</div>
       <div class="team-cell">Geotechnical Engineers</div>
-      <div class="team-cell">Surveyor</div>
+      <div class="team-cell">Surveyors</div>
       <div class="team-cell">Thermographers</div>
       <div class="team-cell">Certified Electricians</div>
       <div class="team-cell">Certified Plumber</div>
@@ -844,14 +873,12 @@
 <section class="on-paper band-tight" id="claimlink">
   <div class="wrap">
     <div class="cl-panel">
-      <div>
+      <div class="cl-head">
         <svg class="mark" viewBox="0 0 141.72 142.79" aria-hidden="true"><use href="#logo-mark"/></svg>
         <h2>ClaimLink Technology</h2>
-        <p>ClaimLink, our proprietary digital claims resolution platform, seamlessly integrates the claim resolution cycle in real-time with our pool of skilled professionals; streamlining the entire resolution process for enhanced precision, speed, efficiency, and accuracy.</p>
       </div>
-      <div>
-        <p>Centralizing the full claim cycle under one innovative and automated roof, fosters an ecosystem that shortens the claims resolution lifecycle, boosts operational efficiency, delivering full stakeholder visibility, maximizing satisfaction and streamlining regulatory compliance.</p>
-      </div>
+      <p class="cl-p1">ClaimLink, our proprietary digital claims resolution platform, seamlessly integrates the claim resolution cycle in real-time with our pool of skilled professionals; streamlining the entire resolution process for enhanced precision, speed, efficiency, and accuracy.</p>
+      <p class="cl-p2">Centralizing the full claim cycle under one innovative and automated roof, fosters an ecosystem that shortens the claims resolution lifecycle, boosts operational efficiency, delivering full stakeholder visibility, maximizing satisfaction and streamlining regulatory compliance.</p>
     </div>
   </div>
 </section>
